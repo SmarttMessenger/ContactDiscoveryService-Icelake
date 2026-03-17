@@ -174,7 +174,7 @@ public class Enclave implements AutoCloseable {
         enclave -> enclave.clock.instant().getEpochSecond());
   }
 
-  @Scheduled(fixedDelay = "${enclave.attestationRefreshInterval:10m}", initialDelay = "${enclave.attestationInitialDelay:0s}")
+  @Scheduled(fixedDelay = "${enclave.attestationRefreshInterval:1m}", initialDelay = "${enclave.attestationInitialDelay:0s}")
   void renewAttestation() {
     try {
       runAsync(ATTEST_TIMER_NAME, () -> {

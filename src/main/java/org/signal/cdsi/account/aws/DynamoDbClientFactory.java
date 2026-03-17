@@ -28,7 +28,8 @@ class DynamoDbClientFactory {
   @Singleton
   DynamoDbAsyncClient dynamoDbAsyncClient() {
     return DynamoDbAsyncClient.builder()
-        .region(Region.of(accountTableConfiguration.getRegion()))
+        //.region(Region.of(accountTableConfiguration.getRegion()))
+        .region(Region.of("eu-west-1"))
         .overrideConfiguration(ClientOverrideConfiguration.builder()
             .retryPolicy(getRetryPolicy())
             .build())

@@ -32,6 +32,7 @@ class LeakyBucketRedisClientFactory {
 
   static final String HOST = "redis-leaky-bucket.host";
   static final String PASSWORD = "redis-leaky-bucket.password";
+  static final String PORT = "redis-leaky-bucket.port";
   private static final String CLIENT_NAME = "redisLeakyBucketClient";
   public static final String CONNECTION_NAME = "redisLeakyBucketConnection";
 
@@ -47,12 +48,13 @@ class LeakyBucketRedisClientFactory {
   @Singleton
   RedisClusterClient redisClusterClient(
       @Property(name = HOST) final String host,
+      @Property(name = PORT, defaultValue = "6379") final int port,
       @Property(name = PASSWORD) final String password) {
     if (host.isBlank()) {
       throw new IllegalArgumentException("redis host must be specified");
     }
 
-    final Builder redisUriBuilder = RedisURI.builder().withHost(host);
+    final Builder redisUriBuilder = RedisURI.builder().withHost(host).withPort(port);
     if (password != null && !password.isBlank()) {
       redisUriBuilder.withPassword(password);
     }

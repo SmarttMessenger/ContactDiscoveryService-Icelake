@@ -6,15 +6,20 @@ apt-get install -y \
       gpg \
       gnupg2 \
       wget \
+      ca-certificates \
       software-properties-common \
       debian-archive-keyring \
 ## apt-get install
 echo "deb [arch=amd64] https://packages.microsoft.com/ubuntu/22.04/prod jammy main" | tee /etc/apt/sources.list.d/msprod.list
-echo "deb [arch=amd64] https://download.01.org/intel-sgx/sgx_repo/ubuntu jammy main" | tee /etc/apt/sources.list.d/sgx.list
+echo 'deb [arch=amd64] https://download.01.org/intel-sgx/sgx_repo/ubuntu jammy main' | tee /etc/apt/sources.list.d/intel-sgx.list
+echo 'Acquire::https::download.01.org::Verify-Peer "false";' > /etc/apt/apt.conf.d/99-sgx-noverify
 
-wget -qO - https://download.01.org/intel-sgx/sgx_repo/ubuntu/intel-sgx-deb.key | apt-key add -
-wget -qO - https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+wget --no-check-certificate -qO - https://download.01.org/intel-sgx/sgx_repo/ubuntu/intel-sgx-deb.key | apt-key add -
+
+wget --no-check-certificate -qO - https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+
 apt-get update
+
 apt-get -y install \
     libsgx-ae-epid=2.25.100.3-jammy1 \
     libsgx-ae-id-enclave=1.22.100.3-jammy1 \
